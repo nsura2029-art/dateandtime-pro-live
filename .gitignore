@@ -1,0 +1,20 @@
+# Validation artifacts
+imgs/_*.png
+validate.py
+live_check.py
+full_shot.py
+build.py
+*.pyc
+__pycache__/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Source zip (built externally)
+*.zip
