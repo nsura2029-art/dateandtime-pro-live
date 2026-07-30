@@ -2,7 +2,7 @@
 import time
 from playwright.sync_api import sync_playwright
 
-URL = "https://29jsuafnz412v.space.minimax.io/"
+URL = "https://nseywkzxn5oro.space.minimax.io/"
 
 with sync_playwright() as p:
     browser = p.chromium.launch()

@@ -459,6 +459,39 @@ section { position: relative; z-index: 1; }
   align-items: center;
   gap: var(--space-2);
   position: relative;
+  margin-top: var(--space-4);
+}
+
+/* Hero 2-column grid — left: city info, right: pills */
+.hero-grid-2 {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+.hero-col-left,
+.hero-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: left;
+}
+.hero-col-right { text-align: left; }
+.hero-pills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+.hero-pills .pill { width: 100%; max-width: 22rem; }
+@media (max-width: 900px) {
+  .hero-grid-2 { grid-template-columns: 1fr; gap: var(--space-6); }
+  .hero-col-left, .hero-col-right { text-align: center; align-items: center; }
+  .hero-pills { align-items: center; }
+  .hero-pills .pill { max-width: 100%; }
 }
 .hero-time {
   font-family: var(--font-mono);
@@ -1209,9 +1242,16 @@ section { position: relative; z-index: 1; }
       }
       .hero-subtitle #tz-abbr { color: var(--color-primary); font-weight: 600; }
       .hero-meta {
-        display: flex; flex-direction: column; align-items: center;
-        gap: var(--space-1); margin-top: var(--space-2);
+        display: flex; flex-direction: column; align-items: flex-start;
+        gap: var(--space-1); margin-top: var(--space-3);
       }
+      .hero-col-left .section-eyebrow,
+      .hero-col-right .section-eyebrow {
+        text-align: left;
+        align-self: flex-start;
+      }
+      .hero-col-right { align-items: flex-start; }
+      .hero-pills { align-items: flex-start; width: 100%; }
 
       .rail { display: flex; gap: 0.75rem; overflow-x: auto; padding: var(--space-4) 0; }
       .city-card {
@@ -1553,8 +1593,8 @@ section { position: relative; z-index: 1; }
 
   <main>
     <!-- ============================================== -->
-    <!-- SECTION 1: HERO — centered, time as visual focal point -->
-    <!-- Order: location pill → meta rows (day/date, sync) → time → h1 + subtitle -->
+    <!-- SECTION 1: HERO — 2-column layout above the time -->
+    <!-- Order: live-location pill → 2-col (left: city info / right: pills) → BIG TIME -->
     <!-- ============================================== -->
     <section class="section section--hero" data-reveal="up">
       <div class="container">
@@ -1566,56 +1606,61 @@ section { position: relative; z-index: 1; }
             <span class="live-location-tz">America/New_York · UTC-04:00</span>
           </div>
 
-          <div class="hero-meta">
-            <div class="day-date">
-              <svg class="day-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-              <span id="day-date-text" class="day-date-text">Wednesday, July 29, 2026</span>
-              <span class="day-date-divider" aria-hidden="true">·</span>
-              <div class="format-toggle format-toggle--inline" role="group" aria-label="Time format" title="Switch between 12-hour (with AM/PM) and 24-hour clock format">
-                <button id="format-12" type="button" aria-pressed="true" title="12-hour clock with AM/PM (e.g. 2:23:45.45 PM)">12h</button>
-                <button id="format-24" type="button" aria-pressed="false" title="24-hour military time (e.g. 14:23:45.45)">24h</button>
+          <div class="hero-grid-2">
+            <div class="hero-col-left">
+              <p class="section-eyebrow" data-reveal="up" data-delay="0">Current time in</p>
+              <h1 class="greeting-seo" data-reveal="up" data-delay="60">
+                <span class="greeting-city" id="greeting-city">San Antonio</span>
+              </h1>
+              <p class="hero-subtitle" data-reveal="up" data-delay="120">
+                <span id="hero-current-city">San Antonio</span> · <span id="hero-current-region">United States</span> · <span id="tz-abbr">EDT</span> <span id="tz-offset">UTC−04:00</span>
+              </p>
+              <div class="hero-meta" data-reveal="up" data-delay="180">
+                <div class="day-date">
+                  <svg class="day-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span id="day-date-text" class="day-date-text">Wednesday, July 29, 2026</span>
+                  <span class="day-date-divider" aria-hidden="true">·</span>
+                  <div class="format-toggle format-toggle--inline" role="group" aria-label="Time format" title="Switch between 12-hour (with AM/PM) and 24-hour clock format">
+                    <button id="format-12" type="button" aria-pressed="true" title="12-hour clock with AM/PM (e.g. 2:23:45.45 PM)">12h</button>
+                    <button id="format-24" type="button" aria-pressed="false" title="24-hour military time (e.g. 14:23:45.45)">24h</button>
+                  </div>
+                </div>
+                <div class="sync-row" id="sync-row" aria-live="polite">
+                  <span class="sync-dot" aria-hidden="true"></span>
+                  <span>Your clock is <strong id="clock-offset">1.5 seconds</strong> behind. <span class="sync-accuracy">Accuracy of synchronization was <strong id="clock-accuracy">±0.027</strong> seconds.</span></span>
+                  <span class="dst-countdown" id="dst-countdown"><span>·</span> <span>DST ends in <strong>95 days</strong></span></span>
+                </div>
               </div>
             </div>
-            <div class="sync-row" id="sync-row" aria-live="polite">
-              <span class="sync-dot" aria-hidden="true"></span>
-              <span>Your clock is <strong id="clock-offset">1.5 seconds</strong> behind. <span class="sync-accuracy">Accuracy of synchronization was <strong id="clock-accuracy">±0.027</strong> seconds.</span></span>
-              <span class="dst-countdown" id="dst-countdown"><span>·</span> <span>DST ends in <strong>95 days</strong></span></span>
+
+            <div class="hero-col-right">
+              <p class="section-eyebrow" data-reveal="up" data-delay="0">Today</p>
+              <div class="hero-pills" data-reveal="up" data-delay="60">
+                <a href="https://tdp-landing-dev.nsura2029.workers.dev/onthisday/" class="pill pill-rose pill-tip" id="onthisday-pill" tabindex="0" data-tip="On this day: A historical event, famous birthday, or cultural milestone that happened on today&#39;s date. Click to see more."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><span id="onthisday-pill-text">NASA established (1958)</span><span class="pill-help" aria-hidden="true">?</span></a>
+                <a href="https://tdp-landing-dev.nsura2029.workers.dev/time-zones/working-hours/" class="pill pill-purple pill-tip" tabindex="0" data-tip="Working hours: Is it currently a workday in this city right now? Useful for knowing when to call, message, or expect a reply. Most businesses are open Mon–Fri, 9 AM – 6 PM."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><span id="off-hours-pill">Off hours · reopen 9:00 AM</span><span class="pill-help" aria-hidden="true">?</span></a>
+                <a href="https://tdp-landing-dev.nsura2029.workers.dev/time-zones/in/" class="pill pill-orange pill-tip" id="sun-pill" tabindex="0" data-tip="Daylight hours: Today&#39;s sunrise and sunset times in this city. Helpful for outdoor plans, photography, golden hour, and adjusting to the local day-night cycle when traveling.">Sunrise 6:49 AM · Sunset 8:23 PM</a>
+                <a href="https://tdp-landing-dev.nsura2029.workers.dev/time-zones/dst/" class="pill pill-blue pill-tip" id="dst-pill" tabindex="0" data-tip="Daylight Saving Time: This city moves its clocks forward 1 hour in summer and back in winter. Right now it&#39;s the offset shown. Watch this around the DST change dates if you&#39;re scheduling meetings or calls."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></span><span id="dst-pill-text">In DST · GMT-4 (standard GMT-5)</span><span class="pill-help" aria-hidden="true">?</span></a>
+              </div>
             </div>
           </div>
 
-          <div class="hero-time-wrap">
+          <div class="hero-time-wrap" data-reveal="up" data-delay="240">
             <div class="hero-time" id="hero-current-time" aria-live="off" title="Live local time · updates every frame.">7:09:31 PM</div>
-            <h1 class="greeting-seo">Current time in <span class="greeting-city" id="greeting-city">San Antonio</span></h1>
-            <p class="hero-subtitle">
-              <span id="hero-current-city">San Antonio</span> · <span id="hero-current-region">United States</span> · <span id="tz-abbr">EDT</span> <span id="tz-offset">UTC−04:00</span>
-            </p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- SECTION 2: CLOCK — big mono clock + pills (subtle background tint) -->
-    <!-- The 3 meta rows now live in the HERO section (right column) -->
+    <!-- SECTION 2: CLOCK — sub-seconds precision mono clock -->
+    <!-- Pills moved up into HERO (right column) -->
     <!-- ============================================== -->
     <section class="section section--clock">
       <div class="container">
-        <!-- 4 main pills — above the big clock -->
-        <div class="pills" id="home-pills">
-          <a href="https://tdp-landing-dev.nsura2029.workers.dev/holidays/" class="pill pill-purple is-hidden pill-tip" id="holiday-pill" tabindex="0" data-tip="Today&#39;s holiday: A public or religious holiday for this country today. Banks, government offices, and many shops will be closed. Plan calls, deliveries, and meetings accordingly."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></span><span id="holiday-pill-text">—</span><span class="pill-help" aria-hidden="true">?</span></a>
-          <a href="https://tdp-landing-dev.nsura2029.workers.dev/holidays/" class="pill pill-green is-hidden pill-tip" id="next-holiday-pill" tabindex="0" data-tip="Next holiday: The next upcoming public or religious holiday for this country. Click to see all holidays in the calendar."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span><span id="next-holiday-pill-text">—</span><span class="pill-help" aria-hidden="true">?</span></a>
-          <a href="https://tdp-landing-dev.nsura2029.workers.dev/onthisday/" class="pill pill-rose pill-tip" id="onthisday-pill" tabindex="0" data-tip="On this day: A historical event, famous birthday, or cultural milestone that happened on today&#39;s date. Click to see more."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><span id="onthisday-pill-text">NASA established (1958)</span><span class="pill-help" aria-hidden="true">?</span></a>
-          <a href="https://tdp-landing-dev.nsura2029.workers.dev/time-zones/working-hours/" class="pill pill-purple pill-tip" tabindex="0" data-tip="Working hours: Is it currently a workday in this city right now? Useful for knowing when to call, message, or expect a reply. Most businesses are open Mon–Fri, 9 AM – 6 PM."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><span id="off-hours-pill">Off hours · reopen 9:00 AM</span><span class="pill-help" aria-hidden="true">?</span></a>
-          <a href="https://tdp-landing-dev.nsura2029.workers.dev/time-zones/in/" class="pill pill-orange pill-tip" id="sun-pill" tabindex="0" data-tip="Daylight hours: Today&#39;s sunrise and sunset times in this city. Helpful for outdoor plans, photography, golden hour, and adjusting to the local day-night cycle when traveling.">Sunrise 6:49 AM · Sunset 8:23 PM</a>
-          <a href="https://tdp-landing-dev.nsura2029.workers.dev/time-zones/dst/" class="pill pill-blue pill-tip" id="dst-pill" tabindex="0" data-tip="Daylight Saving Time: This city moves its clocks forward 1 hour in summer and back in winter. Right now it&#39;s the offset shown. Watch this around the DST change dates if you&#39;re scheduling meetings or calls."><span class="pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></span><span id="dst-pill-text">In DST · GMT-4 (standard GMT-5)</span><span class="pill-help" aria-hidden="true">?</span></a>
-        </div>
-
         <div class="clock-block">
           <div class="mono-clock" id="monoClock" aria-label="Live current time" title="Live local time · updates every frame.">7:09:31.74<span class="ampm">PM</span></div>
         </div>
-
-        </div>
-      
+      </div>
     </section>
 
     <!-- ============================================== -->
