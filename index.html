@@ -1553,8 +1553,8 @@ section { position: relative; z-index: 1; }
 
   <main>
     <!-- ============================================== -->
-    <!-- SECTION 1: HERO — 2-column with vertical line -->
-    <!-- Left: H1 + live location. Right: 3 meta rows from CLOCK. -->
+    <!-- SECTION 1: HERO — centered, time as visual focal point -->
+    <!-- Order: location pill → meta rows (day/date, sync) → time → h1 + subtitle -->
     <!-- ============================================== -->
     <section class="section section--hero" data-reveal="up">
       <div class="container">
@@ -1564,14 +1564,6 @@ section { position: relative; z-index: 1; }
             <span class="live-location-flag"><img class="flag-img" src="./home_files/us.png" width="20" height="14" alt="US" loading="lazy" decoding="async" onerror="this.replaceWith(document.createTextNode(&#39;US&#39;))"></span>
             <span class="live-location-text" id="live-location-text">San Antonio, (near Havana)</span>
             <span class="live-location-tz">America/New_York · UTC-04:00</span>
-          </div>
-
-          <div class="hero-time-wrap">
-            <div class="hero-time" id="hero-current-time" aria-live="off" title="Live local time · updates every frame.">7:09:31 PM</div>
-            <h1 class="greeting-seo">Current time in <span class="greeting-city" id="greeting-city">San Antonio</span></h1>
-            <p class="hero-subtitle">
-              <span id="hero-current-city">San Antonio</span> · <span id="hero-current-region">United States</span> · <span id="tz-abbr">EDT</span> <span id="tz-offset">UTC−04:00</span>
-            </p>
           </div>
 
           <div class="hero-meta">
@@ -1589,6 +1581,14 @@ section { position: relative; z-index: 1; }
               <span>Your clock is <strong id="clock-offset">1.5 seconds</strong> behind. <span class="sync-accuracy">Accuracy of synchronization was <strong id="clock-accuracy">±0.027</strong> seconds.</span></span>
               <span class="dst-countdown" id="dst-countdown"><span>·</span> <span>DST ends in <strong>95 days</strong></span></span>
             </div>
+          </div>
+
+          <div class="hero-time-wrap">
+            <div class="hero-time" id="hero-current-time" aria-live="off" title="Live local time · updates every frame.">7:09:31 PM</div>
+            <h1 class="greeting-seo">Current time in <span class="greeting-city" id="greeting-city">San Antonio</span></h1>
+            <p class="hero-subtitle">
+              <span id="hero-current-city">San Antonio</span> · <span id="hero-current-region">United States</span> · <span id="tz-abbr">EDT</span> <span id="tz-offset">UTC−04:00</span>
+            </p>
           </div>
         </div>
       </div>
